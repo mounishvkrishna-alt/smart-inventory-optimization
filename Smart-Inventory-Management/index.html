@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Smart Inventory Management</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- Navigation -->
+    <header class="navbar">
+      <div class="logo">Smart<span>Inventory</span></div>
+
+      <nav>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#inventory">Inventory</a>
+        <a href="#results">Results</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Dashboard -->
+      <section id="dashboard" class="hero">
+        <div class="hero-content">
+          <p class="tag">0/1 KNAPSACK • DYNAMIC PROGRAMMING</p>
+
+          <h1>
+            Smart Inventory<br />
+            <span>Optimization</span>
+          </h1>
+
+          <p class="description">
+            Optimize warehouse capacity by selecting the combination of products
+            that maximizes expected profit.
+          </p>
+
+          <button class="primary-btn" onclick="scrollToInventory()">
+            Manage Inventory →
+          </button>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <span class="stat-label">Warehouse Capacity</span>
+            <strong id="capacityDisplay">0</strong>
+            <small>storage units</small>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">Products</span>
+            <strong id="productCount">0</strong>
+            <small>items added</small>
+          </div>
+
+          <div class="stat-card">
+            <span class="stat-label">Optimization</span>
+            <strong>0/1</strong>
+            <small>Knapsack DP</small>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inventory Section -->
+      <section id="inventory" class="section">
+        <div class="section-heading">
+          <div>
+            <p class="tag">INVENTORY INPUT</p>
+
+            <h2>Manage Products</h2>
+
+            <p>
+              Enter warehouse capacity and product details to generate an
+              optimized inventory plan.
+            </p>
+          </div>
+        </div>
+
+        <!-- Warehouse Capacity -->
+        <div class="capacity-card">
+          <label for="warehouseCapacity"> Warehouse Capacity </label>
+
+          <div class="capacity-input">
+            <input
+              type="number"
+              id="warehouseCapacity"
+              min="1"
+              placeholder="Enter capacity"
+            />
+
+            <span>storage units</span>
+          </div>
+        </div>
+
+        <!-- Product Table -->
+        <div class="inventory-card">
+          <div class="table-header">
+            <h3>Products</h3>
+
+            <button class="secondary-btn" onclick="addProduct()">
+              + Add Product
+            </button>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Storage</th>
+                  <th>Cost Price</th>
+                  <th>Selling Price</th>
+                  <th>Demand</th>
+                  <th>Expected Profit</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody id="productTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Demo / Optimize Buttons -->
+        <div class="action-area">
+          <button class="demo-btn" onclick="loadDemoData()">
+            Load Demo Data
+          </button>
+
+          <button class="optimize-btn" onclick="optimizeInventory()">
+            Optimize Inventory →
+          </button>
+        </div>
+      </section>
+
+      <!-- Results Section -->
+      <section id="results" class="section results-section">
+        <div class="section-heading">
+          <p class="tag">OPTIMIZATION RESULTS</p>
+
+          <h2>Optimal Inventory Plan</h2>
+
+          <p>
+            Results generated using the 0/1 Knapsack optimization algorithm.
+          </p>
+        </div>
+
+        <!-- Result Summary -->
+        <div class="result-summary">
+          <div class="result-card highlight">
+            <span>Maximum Expected Profit</span>
+            <strong id="maxProfit">₹0</strong>
+          </div>
+
+          <div class="result-card">
+            <span>Storage Used</span>
+            <strong id="storageUsed">0</strong>
+            <small id="storageTotal">/ 0 units</small>
+          </div>
+
+          <div class="result-card">
+            <span>Remaining Capacity</span>
+            <strong id="remainingCapacity">0</strong>
+            <small>storage units</small>
+          </div>
+        </div>
+
+        <!-- Storage Utilization -->
+        <div class="utilization-card">
+          <div class="utilization-header">
+            <div>
+              <span class="utilization-label">WAREHOUSE UTILIZATION</span>
+              <h3>Storage Allocation</h3>
+            </div>
+
+            <strong id="utilizationPercent">0%</strong>
+          </div>
+
+          <div class="progress-track">
+            <div class="progress-bar" id="utilizationBar"></div>
+          </div>
+
+          <div class="utilization-details">
+            <span id="utilizationUsed">0 units used</span>
+            <span id="utilizationRemaining">0 units remaining</span>
+          </div>
+        </div>
+
+        <!-- Selected Products -->
+        <div class="results-card">
+          <div class="results-header">
+            <h3>Product Selection</h3>
+
+            <span id="optimizationStatus"> Waiting for optimization </span>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Storage</th>
+                  <th>Expected Profit</th>
+                  <th>Decision</th>
+                </tr>
+              </thead>
+
+              <tbody id="resultsTableBody">
+                <tr>
+                  <td colspan="4" class="empty-state">
+                    Run optimization to see results.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>
+        Smart Inventory Management
+        <span>•</span>
+        0/1 Knapsack Optimization
+      </p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/knapsack.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
